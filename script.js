@@ -9,213 +9,119 @@
 //player one inputs 1, player 2 inputs value 2, loop through arrays and add and see if it equals to 3 or 6
 //if 3, the  player 1 won, if 6 then player 2 won
 let counter = 0
-const playingField = [[0, 0, 0],
-[0, 0, 0],
-[0, 0, 0]];
-// playingField[1][1] = 1
-// console.log(playingField)
-//vertical win: 0 = 3 = 6 or 1 = 4 = 7 or 2 = 5 = 8 
-//horizontal win: 0 = 1 = 2 or 3 = 4 = 5 or 6 = 7 = 8
-//diagnal win: if 0 = 4 = 8 or 2 = 4 = 6
-// [01, 02, 03 ]
-// []
-//
 
-// function getAttr() {
-//     takenArray = document.getElementsByClassName('box')
-//     boxTaken = takenArray.map(box => box.getAttribute('taken'))
-// }
 
-// console.log(getAttr())
-// console.log(takenArray)
-// giveListenerToBox = document.getElementsByClassName('box 1')
-// console.log(document.getElementsByClassName('box 1'))
-// giveListenerToBox.addEventListener('click', playRound())
 
-// console.log(document.querySelector('.box.1'))
+let playingField = [[0, 2, 0],
+[1, 2, 1],
+[0, 2, 2]];
+
 class Player {
     constructor(name, mark) {
         this.name = name;
-        this.mark = mark
-        this.turn = false
+        this.mark = mark;
+        this.turn = false;
     }
 
+    //updates playingField array with value associated with player
     updateField(e) {
-        // console.log(playingField)
-        // console.log(e.target.value)
-        // console.log(typeof (e.target.value))
         if (e.target.value === "0") {
             if (counter % 2 === 0) {
-                playingField[0][0] = 1
+                playingField[0][0] = 1;
             } else {
-                playingField[0][0] = 2
+                playingField[0][0] = 10;
             }
         }
         if (e.target.value === "1") {
             if (counter % 2 === 0) {
-                playingField[0][1] = 1
+                playingField[0][1] = 1;
             } else {
-                playingField[0][1] = 2
+                playingField[0][1] = 10;
             }
         }
         if (e.target.value === "2") {
             if (counter % 2 === 0) {
-                playingField[0][2] = 1
+                playingField[0][2] = 1;
             } else {
-                playingField[0][2] = 2
+                playingField[0][2] = 10;
             }
         }
         if (e.target.value === "3") {
             if (counter % 2 === 0) {
-                playingField[1][0] = 1
+                playingField[1][0] = 1;
             } else {
-                playingField[1][0] = 2
+                playingField[1][0] = 10;
             }
         }
         if (e.target.value === "4") {
             if (counter % 2 === 0) {
-                playingField[1][1] = 1
+                playingField[1][1] = 1;
             } else {
-                playingField[1][1] = 2
+                playingField[1][1] = 10;
             }
         }
         if (e.target.value === "5") {
             if (counter % 2 === 0) {
-                playingField[1][2] = 1
+                playingField[1][2] = 1;
             } else {
-                playingField[1][2] = 2
+                playingField[1][2] = 10;
             }
         }
         if (e.target.value === "6") {
             if (counter % 2 === 0) {
-                playingField[2][0] = 1
+                playingField[2][0] = 1;
             } else {
-                playingField[2][0] = 2
+                playingField[2][0] = 10;
             }
         }
         if (e.target.value === "7") {
             if (counter % 2 === 0) {
-                playingField[2][1] = 1
+                playingField[2][1] = 1;
             } else {
-                playingField[2][1] = 2
+                playingField[2][1] = 10;
             }
         }
         if (e.target.value === "8") {
             if (counter % 2 === 0) {
-                playingField[2][2] = 1
+                playingField[2][2] = 1;
             } else {
-                playingField[2][2] = 2
+                playingField[2][2] = 10;
             }
         }
     }
-    // whosTurn(e) {
-    //     if (counter < 17 && e.target.textContent === '1') {
-    //         if (this.turn) {
-    //             counter += 1
-    //             e.target.textContent = this.mark;
-    //             this.turn = !this.turn
-    //             // console.log(`${this.name} just went, ${counter}`)
-    //             // console.log(counter)
-    //         } else {
-    //             this.turn = true
-    //         }
-    //     }
-    // }
 
-    // whosTurn(e) {
-    //     if (counter < 17 && e.target.textContent === '1') {
-    //         if (this.turn) {
-    //             counter += 1
-    //             e.target.textContent = this.mark;
-    //             this.turn = !this.turn
-    //             // console.log(`${this.name} just went, ${counter}`)
-    //             // console.log(counter)
-    //         } else {
-    //             this.turn = true
-    //         }
-    //     } else {
-    //         this.turn = !this.turn
-    //     }
-    // }
-    whosTurn(e) {
+    marker(e) {
         counter += 1;
         e.target.textContent = this.mark;
 
     }
 
-
-    // console.log(e.target)
-    // const boxToRemove = document.getElementsByClassName(`box ${e.target.value}`)
-    // console.log(boxToRemove)
-    // console.log(getEventListeners(boxToRemove))
-    // boxToRemove.removeEventListener('click', this.whosTurn(), updateField())
-    // console.log(e)
-
-    // removeListener(e) {
-    //     if (e.target.textContent !== '') {
-    //         console.log('sadasd')
-    //         e.target.removeEventListener(
-    //             'click', this.whosTurn(), this.updateField()
-    //         )
-    //     }
-    // }
-
-    //     marker() {
-    //         const allBox = document.getElementsByClassName("box")
-    //         // counter = false
-    //         console.log(`${this.name}, ${this.turn}, ${counter}`)
-    //         for (let i = 0; i < allBox.length; i++) {
-    //             allBox[i].addEventListener("click", e => { this.whosTurn(e), this.updateField(e), console.log(`${this.name}, ${this.turn}, ${counter}`) })
-    //         }
-    //     }
-    // }
-
-    //     marker() {
-    //         const allBox = document.getElementsByClassName("box")
-    //         for (let i = 0; i < allBox.length; i++) {
-    //             allBox[i].addEventListener("click", e => {
-    //                 if (counter < 17 && e.target.textContent === '1') {
-    //                     if (this.turn) {
-    //                         this.whosTurn(e);
-    //                         this.updateField(e);
-    //                         this.turn = !this.turn
-    //                         console.log(`${this.name}, ${this.turn}, ${counter}`)
-    //                     }
-    //                     if (this.turn === false) {
-    //                         this.turn = !this.turn
-    //                         console.log(`${this.name}, ${this.turn}, ${counter}`)
-    //                     }
-    //                 }
-    //             })
-    //         }
-    //     }
-    // }
-    marker() {
+    whosTurn() {
         const allBox = document.getElementsByClassName("box")
         for (let i = 0; i < allBox.length; i++) {
-            // let takenAttr = document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken")
+            // let takenAttr = document.getElementsByClassName(`box ${ [i] } `)[0].getAttribute("taken")
             allBox[i].addEventListener("click", e => {
-                // console.log(document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken"))
+                // console.log(document.getElementsByClassName(`box ${ [i] } `)[0].getAttribute("taken"))
                 if (this.turn) {
                     // console.log(e.target.textContent)
                     if (e.target.textContent === '1') {
-                        this.whosTurn(e);
+                        this.marker(e);
                         this.updateField(e);
                         this.turn = !this.turn;
-                        console.log(`${this.name}, ${this.turn}, ${counter}`)
+                        // console.log(`${ this.name }, ${ this.turn }, ${ counter } `)
                     } else {
                         // console.log('return')
                         return
                     }
                 } else {
                     // console.log(takenAttr)
-                    if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false') {
+                    if (document.getElementsByClassName(`box ${[i]} `)[0].getAttribute("taken") === 'false') {
                         this.turn = !this.turn;
-                        document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("taken", true)
+                        document.getElementsByClassName(`box ${[i]} `)[0].setAttribute("taken", true);
                     } else {
-                        this.turn = this.turn
+                        this.turn = this.turn;
                     }
-                    console.log(`${this.name}, ${this.turn}, ${counter}`)
+                    // console.log(`${ this.name }, ${ this.turn }, ${ counter } `)
                 }
             })
         }
@@ -228,34 +134,78 @@ class theField {
 
         for (let i = 0; i < 9; i++) {
             const box = document.createElement('div');
-            box.className = `box ${i}`
-            box.value = `${i}`;
-            box.textContent = '1'
-            box.setAttribute('taken', false)
+            box.className = `box ${i} `
+            box.value = `${i} `;
+            box.textContent = '1';
+            box.setAttribute('taken', false);
             // box.addEventListener('click', (e) => { return e.target.textContent = 'haha' })
-            // box.textContent = `${i}`;
+            // box.textContent = `${ i } `;
             container.appendChild(box);
 
         }
     }
 }
 
-// console.log(counter)
 const field = new theField
 field.createField()
 const player1 = new Player('Jacky', 'JACKY')
 const player2 = new Player('Mei', 'Mei')
 player1.turn = true
-player1.marker()
-player2.marker()
+player1.whosTurn()
+player2.whosTurn()
 
-
-function playRound() {
-    if (counter % 2 === 0) {
-        player1.marker();
-    } else {
-        player2.marker()
+console.log(playingField[0].length)
+function checkHorizWin() {
+    for (let i = 0; i < playingField.length; i++) {
+        let sum = 0;
+        for (let j = 0; j < playingField[i].length; j++) {
+            sum += playingField[i][j];
+        }
+        if (sum === 3) {
+            `${player1.name} has won!`;
+        }
+        if (sum === 30) {
+            `${player2.name} has won!`;
+        }
     }
+    console.log(`${i} = i, ${sum} = sum`);
+}
+
+function checkVertWin() {
+    for (let i = 0; i < playingField.length; i++) {
+        let sum = 0;
+        for (let j = 0; j < playingField[i].length; j++) {
+            sum += playingField[j][i];
+        }
+        if (sum === 3) {
+            `${player1.name} has won!`;
+        }
+        if (sum === 30) {
+            `${player2.name} has won!`;
+        }
+    }
+}
+
+// 0,0 + 1, 0 + 2,0
+function checkDiagWin() {
+    if (playingField[0][0] + playingField[1][1] + playingField[2][2] === 3) {
+        console.log(`${player1.name} has won!`);
+    }
+    if (playingField[0][0] + playingField[1][1] + playingField[2][2] === 30) {
+        console.log(`${player2.name} has won!`);
+    }
+    if (playingField[0][2] + playingField[1][1] + playingField[2][0] === 3) {
+        console.log(`${player1.name} has won!`);
+    }
+    if (playingField[0][2] + playingField[1][1] + playingField[2][0] === 30) {
+        console.log(`${player2.name} has won!`);
+    }
+}
+
+function checkWinner(){
+    checkHorizWin();
+    checkVertWin();
+    checkDiagWin()
 }
 
 
