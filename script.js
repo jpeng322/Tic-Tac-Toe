@@ -12,19 +12,22 @@ let counter = 0
 
 
 
-let playingField = [[0, 2, 0],
-[1, 2, 1],
-[0, 2, 2]];
+let playingField = [[0, 0, 0],
+[0, 0, 0],
+[0, 0, 0]];
 
+console.log(playingField)
 class Player {
     constructor(name, mark) {
         this.name = name;
         this.mark = mark;
         this.turn = false;
+        this.hasWon = false;
     }
 
     //updates playingField array with value associated with player
     updateField(e) {
+        // const boxValue = e.target.value
         if (e.target.value === "0") {
             if (counter % 2 === 0) {
                 playingField[0][0] = 1;
@@ -88,8 +91,10 @@ class Player {
                 playingField[2][2] = 10;
             }
         }
+        // console.log(playingField)
     }
 
+    //adds a mark to the selected box
     marker(e) {
         counter += 1;
         e.target.textContent = this.mark;
@@ -105,10 +110,14 @@ class Player {
                 if (this.turn) {
                     // console.log(e.target.textContent)
                     if (e.target.textContent === '1') {
-                        this.marker(e);
                         this.updateField(e);
+                        this.marker(e);
                         this.turn = !this.turn;
-                        // console.log(`${ this.name }, ${ this.turn }, ${ counter } `)
+                        checkWinner()
+                        // if (counter === 9) {
+                        //     checkWinner()
+                        // }
+                        // console.log(`${this.name}, ${this.turn}, ${counter} `)
                     } else {
                         // console.log('return')
                         return
@@ -121,8 +130,8 @@ class Player {
                     } else {
                         this.turn = this.turn;
                     }
-                    // console.log(`${ this.name }, ${ this.turn }, ${ counter } `)
                 }
+                console.log(counter)
             })
         }
     }
@@ -134,12 +143,10 @@ class theField {
 
         for (let i = 0; i < 9; i++) {
             const box = document.createElement('div');
-            box.className = `box ${i} `
-            box.value = `${i} `;
+            box.className = `box ${i}`
+            box.value = `${i}`;
             box.textContent = '1';
             box.setAttribute('taken', false);
-            // box.addEventListener('click', (e) => { return e.target.textContent = 'haha' })
-            // box.textContent = `${ i } `;
             container.appendChild(box);
 
         }
@@ -154,7 +161,6 @@ player1.turn = true
 player1.whosTurn()
 player2.whosTurn()
 
-console.log(playingField[0].length)
 function checkHorizWin() {
     for (let i = 0; i < playingField.length; i++) {
         let sum = 0;
@@ -162,13 +168,14 @@ function checkHorizWin() {
             sum += playingField[i][j];
         }
         if (sum === 3) {
-            `${player1.name} has won!`;
+            console.log(`${player1.name} has won!`);
+            player1.hasWon = true;
         }
         if (sum === 30) {
-            `${player2.name} has won!`;
+            console.log(`${player2.name} has won!`);
+            player2.hasWon = true;
         }
-    }
-    console.log(`${i} = i, ${sum} = sum`);
+    };
 }
 
 function checkVertWin() {
@@ -179,9 +186,11 @@ function checkVertWin() {
         }
         if (sum === 3) {
             `${player1.name} has won!`;
+            player1.hasWon = true;
         }
         if (sum === 30) {
             `${player2.name} has won!`;
+            player2.hasWon = true;
         }
     }
 }
@@ -190,22 +199,34 @@ function checkVertWin() {
 function checkDiagWin() {
     if (playingField[0][0] + playingField[1][1] + playingField[2][2] === 3) {
         console.log(`${player1.name} has won!`);
+        player1.hasWon = true;
     }
     if (playingField[0][0] + playingField[1][1] + playingField[2][2] === 30) {
         console.log(`${player2.name} has won!`);
+        player2.hasWon = true;
     }
     if (playingField[0][2] + playingField[1][1] + playingField[2][0] === 3) {
         console.log(`${player1.name} has won!`);
+        player1.hasWon = true;
     }
     if (playingField[0][2] + playingField[1][1] + playingField[2][0] === 30) {
         console.log(`${player2.name} has won!`);
+        player2.hasWon = true;
     }
 }
 
-function checkWinner(){
+function checkTie() {
+    if (counter === 9 && player1.hasWon === false && player2.hasWon === false) {
+        console.log("It is a tie!");
+    }
+}
+
+function checkWinner() {
     checkHorizWin();
     checkVertWin();
-    checkDiagWin()
+    checkDiagWin();
+    checkTie();
+    // console.log('checked')
 }
 
 
