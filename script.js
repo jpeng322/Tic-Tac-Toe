@@ -27,100 +27,94 @@ class Player {
 
     //updates playingField array with value associated with player
     updateField(e) {
-        // const boxValue = e.target.value
-        if (e.target.value === "0") {
-            if (counter % 2 === 0) {
-                playingField[0][0] = 1;
+        const boxVal = e.target.value
+        const playerOneTurn = counter % 2 === 0
+        if (boxVal === "0") {
+            if (playerOneTurn) {
+                firstRow[0] = 1;
             } else {
-                playingField[0][0] = 10;
+                firstRow[0] = 10;
             }
         }
-        if (e.target.value === "1") {
-            if (counter % 2 === 0) {
-                playingField[0][1] = 1;
+        if (boxVal === "1") {
+            if (playerOneTurn) {
+                firstRow[1] = 1;
             } else {
-                playingField[0][1] = 10;
+                firstRow[1] = 10;
             }
         }
-        if (e.target.value === "2") {
-            if (counter % 2 === 0) {
-                playingField[0][2] = 1;
+        if (boxVal === "2") {
+            if (playerOneTurn) {
+                firstRow[2] = 1;
             } else {
-                playingField[0][2] = 10;
+                firstRow[2] = 10;
             }
         }
-        if (e.target.value === "3") {
-            if (counter % 2 === 0) {
-                playingField[1][0] = 1;
+        if (boxVal === "3") {
+            if (playerOneTurn) {
+                secRow[0] = 1;
             } else {
-                playingField[1][0] = 10;
+                secRow[0] = 10;
             }
         }
-        if (e.target.value === "4") {
-            if (counter % 2 === 0) {
-                playingField[1][1] = 1;
+        if (boxVal === "4") {
+            if (playerOneTurn) {
+                secRow[1] = 1;
             } else {
-                playingField[1][1] = 10;
+                secRow[1] = 10;
             }
         }
-        if (e.target.value === "5") {
-            if (counter % 2 === 0) {
-                playingField[1][2] = 1;
+        if (boxVal === "5") {
+            if (playerOneTurn) {
+                secRow[2] = 1;
             } else {
-                playingField[1][2] = 10;
+                secRow[2] = 10;
             }
         }
-        if (e.target.value === "6") {
-            if (counter % 2 === 0) {
-                playingField[2][0] = 1;
+        if (boxVal === "6") {
+            if (playerOneTurn) {
+                thirdRow[0] = 1;
             } else {
-                playingField[2][0] = 10;
+                thirdRow[0] = 10;
             }
         }
-        if (e.target.value === "7") {
-            if (counter % 2 === 0) {
-                playingField[2][1] = 1;
+        if (boxVal === "7") {
+            if (playerOneTurn) {
+                thirdRow[1] = 1;
             } else {
-                playingField[2][1] = 10;
+                thirdRow[1] = 10;
             }
         }
-        if (e.target.value === "8") {
-            if (counter % 2 === 0) {
-                playingField[2][2] = 1;
+        if (boxVal === "8") {
+            if (playerOneTurn) {
+                thirdRow[2] = 1;
             } else {
-                playingField[2][2] = 10;
+                thirdRow[2] = 10;
             }
         }
-        // console.log(playingField)
     }
 
     //adds a mark to the selected box
     marker(e) {
         counter += 1;
-        e.target.textContent = this.mark;
+        e.target.innerHTML = this.mark;
 
     }
 
     whosTurn() {
         const allBox = document.getElementsByClassName("box")
         for (let i = 0; i < allBox.length; i++) {
-            // let takenAttr = document.getElementsByClassName(`box ${ [i] } `)[0].getAttribute("taken")
             allBox[i].addEventListener("click", e => {
-                // console.log(document.getElementsByClassName(`box ${ [i] } `)[0].getAttribute("taken"))
                 if (this.turn) {
-                    // console.log(e.target.textContent)
-                    if (e.target.textContent === '1') {
+                    if (e.target.innerHTML === "") {
+                        // console.log(e.target.innerHTML)
                         this.updateField(e);
                         this.marker(e);
                         this.turn = !this.turn;
-                        checkWinner()
-                        // if (counter === 9) {
-                        //     checkWinner()
-                        // }
-                        // console.log(`${this.name}, ${this.turn}, ${counter} `)
-                    } else {
-                        // console.log('return')
-                        return
+                        checkWinner();
+                        // console.log(e)
+                        console.log(e.target.innerHTML)
+                        console.log(`${this.name}, ${this.turn} ${counter}`)
                     }
                 } else {
                     // console.log(takenAttr)
@@ -129,9 +123,9 @@ class Player {
                         document.getElementsByClassName(`box ${[i]} `)[0].setAttribute("taken", true);
                     } else {
                         this.turn = this.turn;
-                    }
+                    } console.log(`${this.name}, ${this.turn} ${counter}`)
                 }
-                console.log(counter)
+                // console.log(counter)
             })
         }
     }
@@ -143,9 +137,11 @@ class theField {
 
         for (let i = 0; i < 9; i++) {
             const box = document.createElement('div');
-            box.className = `box ${i}`
+            box.className = `box ${i}`;
             box.value = `${i}`;
-            box.textContent = '1';
+            // box.innerHTML = "<ion-icon class='circle' name='ellipse-outline'></ion-icon>";
+            // box.innerHTML = "<ion-icon class='cross' name='close-outline'></ion-icon>"
+            box.innerHTML = ""
             box.setAttribute('taken', false);
             container.appendChild(box);
 
@@ -153,13 +149,19 @@ class theField {
     }
 }
 
-const field = new theField
-field.createField()
-const player1 = new Player('Jacky', 'JACKY')
-const player2 = new Player('Mei', 'Mei')
-player1.turn = true
-player1.whosTurn()
-player2.whosTurn()
+const field = new theField;
+field.createField();
+const firstRow = playingField[0]
+const secRow = playingField[1]
+const thirdRow = playingField[2]
+const player1 = new Player('Jacky', "<p><ion-icon class='circle' name='ellipse-outline'></ion-icon></p>");
+const player2 = new Player('Mei', "<p><ion-icon class='cross' name='close-outline'></ion-icon></p>");
+// const player1 = new Player('Jacky', "Jacky");
+// const player2 = new Player('Mei', "mei");
+player1.turn = true;
+player1.whosTurn();
+player2.whosTurn();
+
 
 function checkHorizWin() {
     for (let i = 0; i < playingField.length; i++) {
@@ -185,31 +187,30 @@ function checkVertWin() {
             sum += playingField[j][i];
         }
         if (sum === 3) {
-            `${player1.name} has won!`;
+            console.log(`${player1.name} has won!`);
             player1.hasWon = true;
         }
         if (sum === 30) {
-            `${player2.name} has won!`;
+            console.log(`${player2.name} has won!`);
             player2.hasWon = true;
         }
     }
 }
 
-// 0,0 + 1, 0 + 2,0
 function checkDiagWin() {
-    if (playingField[0][0] + playingField[1][1] + playingField[2][2] === 3) {
+    if (firstRow[0] + secRow[1] + thirdRow[2] === 3) {
         console.log(`${player1.name} has won!`);
         player1.hasWon = true;
     }
-    if (playingField[0][0] + playingField[1][1] + playingField[2][2] === 30) {
+    if (firstRow[0] + secRow[1] + thirdRow[2] === 30) {
         console.log(`${player2.name} has won!`);
         player2.hasWon = true;
     }
-    if (playingField[0][2] + playingField[1][1] + playingField[2][0] === 3) {
+    if (firstRow[2] + secRow[1] + thirdRow[0] === 3) {
         console.log(`${player1.name} has won!`);
         player1.hasWon = true;
     }
-    if (playingField[0][2] + playingField[1][1] + playingField[2][0] === 30) {
+    if (firstRow[2] + secRow[1] + thirdRow[0] === 30) {
         console.log(`${player2.name} has won!`);
         player2.hasWon = true;
     }
@@ -226,7 +227,9 @@ function checkWinner() {
     checkVertWin();
     checkDiagWin();
     checkTie();
-    // console.log('checked')
+    // console.log('checked');
+    // console.log(player1.hasWon)
+    // console.log(player2.hasWon)
 }
 
 
