@@ -16,7 +16,7 @@ let playingField = [[0, 0, 0],
 [0, 0, 0],
 [0, 0, 0]];
 
-console.log(playingField)
+// console.log(playingField)
 class Player {
     constructor(name, mark) {
         this.name = name;
@@ -107,7 +107,7 @@ class Player {
             allBox[i].addEventListener("click", e => {
                 if (this.turn) {
                     if (e.target.innerHTML === "") {
-                        // console.log(e.target.innerHTML)
+                        console.log(e.target.innerHTML)
                         this.updateField(e);
                         this.marker(e);
                         this.turn = !this.turn;
@@ -118,9 +118,9 @@ class Player {
                     }
                 } else {
                     // console.log(takenAttr)
-                    if (document.getElementsByClassName(`box ${[i]} `)[0].getAttribute("taken") === 'false') {
+                    if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false') {
                         this.turn = !this.turn;
-                        document.getElementsByClassName(`box ${[i]} `)[0].setAttribute("taken", true);
+                        document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("taken", true);
                     } else {
                         this.turn = this.turn;
                     } console.log(`${this.name}, ${this.turn} ${counter}`)
@@ -138,6 +138,7 @@ class theField {
         for (let i = 0; i < 9; i++) {
             const box = document.createElement('div');
             box.className = `box ${i}`;
+            box.id = `box-${i}`
             box.value = `${i}`;
             // box.innerHTML = "<ion-icon class='circle' name='ellipse-outline'></ion-icon>";
             // box.innerHTML = "<ion-icon class='cross' name='close-outline'></ion-icon>"
@@ -154,10 +155,8 @@ field.createField();
 const firstRow = playingField[0]
 const secRow = playingField[1]
 const thirdRow = playingField[2]
-const player1 = new Player('Jacky', "<p><ion-icon class='circle' name='ellipse-outline'></ion-icon></p>");
-const player2 = new Player('Mei', "<p><ion-icon class='cross' name='close-outline'></ion-icon></p>");
-// const player1 = new Player('Jacky', "Jacky");
-// const player2 = new Player('Mei', "mei");
+const player1 = new Player('Jacky', "<p><ion-icon class='circle' name='ellipse-outline'><span>1<span></ion-icon></p>");
+const player2 = new Player('Mei', "<p><ion-icon class='cross' name='close-outline'><span>1<span></ion-icon></p>");
 player1.turn = true;
 player1.whosTurn();
 player2.whosTurn();
@@ -232,5 +231,12 @@ function checkWinner() {
     // console.log(player2.hasWon)
 }
 
+playerOneHead = document.querySelector(".player1");
+playerOneHead.textContent = player1.name.toUpperCase()
+playerTwoHead = document.querySelector(".player2");
+playerTwoHead.textContent = player2.name.toUpperCase()
 
 // playGame()
+
+
+
