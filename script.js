@@ -18,9 +18,9 @@ let playingField = [[0, 0, 0],
 
 // console.log(playingField)
 class Player {
-    constructor(name, mark) {
+    constructor(name) {
         this.name = name;
-        this.mark = mark;
+        this.mark = '';
         this.turn = false;
         this.hasWon = false;
     }
@@ -94,6 +94,31 @@ class Player {
         }
     }
 
+    pickMarker() {
+        const buttons = document.querySelectorAll('.button')
+        for (let i = 0; i < buttons.length; i++) {
+            buttons[i].addEventListener('click', () => {
+                // console.log('haha')
+                if (this.mark === '' && buttons[i].disabled != true) {
+                    this.mark = buttons[i].innerHTML;
+                    // console.log(buttons[i].className)
+                    // console.log(document.getElementsByClassName(`${buttons[i].className}`))
+                    const options = document.getElementsByClassName(`${buttons[i].className}`)
+                    for (let j = 0; j < options.length; j++) {
+                        options[j].disabled = true
+                        options[j].style.backgroundColor = "#F65158";
+                    }
+                    // options.forEach(option => option.disabled = true)
+                    // console.log(document.querySelectorAll(`.${buttons[i].className}`))
+                    // document.querySelectorAll(`.${buttons[i].className}`).disabled = true
+                    console.log(`${this.name} has picked ${buttons[i]}`);
+                    // buttons[i].disabled = true;
+                }
+                // console.log(buttons[i].innerHTML)
+            })
+        }
+    }
+
     //adds a mark to the selected box
     marker(e) {
         counter += 1;
@@ -105,7 +130,10 @@ class Player {
         const allBox = document.getElementsByClassName("box")
         for (let i = 0; i < allBox.length; i++) {
             allBox[i].addEventListener("click", e => {
+                console.log("clickclick")
                 if (this.turn) {
+                    // console.log("clickturntrue")
+                    console.log(e.target.innerHTML === "")
                     if (e.target.innerHTML === "") {
                         console.log(e.target.innerHTML)
                         this.updateField(e);
@@ -148,6 +176,11 @@ class theField {
 
         }
     }
+    clearField() {
+        for (let i = 0; i < 9; i++) {
+
+        }
+    }
 }
 
 const field = new theField;
@@ -155,9 +188,11 @@ field.createField();
 const firstRow = playingField[0]
 const secRow = playingField[1]
 const thirdRow = playingField[2]
-const player1 = new Player('Jacky', "<p><ion-icon class='circle' name='ellipse-outline'><span>1<span></ion-icon></p>");
-const player2 = new Player('Mei', "<p><ion-icon class='cross' name='close-outline'><span>1<span></ion-icon></p>");
+const player1 = new Player("Jacky");
+const player2 = new Player("Mei");
 player1.turn = true;
+player1.pickMarker();
+player2.pickMarker();
 player1.whosTurn();
 player2.whosTurn();
 
@@ -239,4 +274,38 @@ playerTwoHead.textContent = player2.name.toUpperCase()
 // playGame()
 
 
+function clearField1() {
+    const fieldBoxes = document.querySelectorAll(".box")
+    // fieldBoxes.forEach(box => {
+    //     box.setAttribute("taken", false);
+    //     box.removeChild(box.querySelector("ion-icon"));
+    //     box.innerHTML = "";
+    // })
+    for (let i = 0; i < 9; i++) {
+        fieldBoxes[i].setAttribute("taken", false);
+        if (fieldBoxes[i].childNodes.length > 0) {
+            fieldBoxes[i].removeChild(fieldBoxes[i].querySelector("ion-icon"));
+            fieldBoxes[i].innerHTML = "";
+        }
+    }
+    const buttons = document.querySelectorAll('button')
+    buttons.forEach(button => {
+        button.disabled = false;
+        button.style.backgroundColor = "white";
+    })
+    field.createField();
+    player1.turn = true;
+    player2.turn = false;
+    player1.mark = '';
+    player2.mark = '';
+    player1.pickMarker();
+    player2.pickMarker();
+    player1.whosTurn();
+    player2.whosTurn();
+}
 
+gamebutton = document.querySelector(".gamebtn")
+gamebutton.addEventListener("click", clearField1)
+
+const buttons = document.querySelectorAll('button')
+const numbers = [1, 2, 3, 4]

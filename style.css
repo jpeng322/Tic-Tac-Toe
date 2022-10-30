@@ -48,6 +48,7 @@ body {
     margin-bottom: 2rem;
 }
 
+
 .title {
     color: #F65158;
     text-align: center;
@@ -64,6 +65,11 @@ body {
 
 .playervs>* {
     /* border: 1px solid green; */
+}
+
+.gamebtn {
+    width: auto;
+    height: auto;
 }
 
 .markers {
@@ -89,11 +95,20 @@ body {
     align-items: center;
 }
 
-.cross-option {
+.option {
+
+    border-radius: 16px;
+    width: 100%;
+    height: 100%;
+    color: red;
+    justify-self: center;
+}
+
+button {
     border: 2px solid #858585;
     border-radius: 16px;
     width: 50%;
-    height: 50%;
+    height: 60%;
     color: red;
     justify-self: center;
 }
@@ -128,19 +143,6 @@ body {
     align-items: center;
 }
 
-.circle {
-    /* border: 1px solid red; */
-    width: 80%;
-    height: 80%;
-    color: green;
-}
-
-.cross {
-    /* border: 1px solid red; */
-    width: 100%;
-    height: 100%;
-    color: red;
-}
 
 #box-1,
 #box-2,
@@ -165,4 +167,27 @@ body {
 #box-5,
 #box-8 {
     border-right: none;
+}
+
+
+
+.circle {
+    color: green;
+}
+
+.triangle {
+    color: red;
+}
+
+.star {
+    color: gold;
+}
+
+.umbrella {
+    color: #0c6eb9;
+}
+
+
+.icon-inner {
+    border: 1px solid white;
 }
