@@ -191,3 +191,28 @@ button {
 .icon-inner {
     border: 1px solid white;
 }
+
+.button {
+    background-color: #081b29;
+    /* background-color: #041420; */
+    border: none;
+}
+
+/* .button:hover:enabled {
+    background-color: #0f2537;
+} */
+
+.button[disabled]:hover {
+    background-color: #081b29;
+}
+
+.button:hover {
+    background-color: #0f2537;
+}
+
+*:disabled {
+    /* background-color: #b69797; */
+    /* border: 2px solid #858585; */
+    /* border: none; */
+
+}

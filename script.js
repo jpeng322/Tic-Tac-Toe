@@ -95,24 +95,28 @@ class Player {
     }
 
     pickMarker() {
-        const buttons = document.querySelectorAll('.button')
+        const buttons = document.querySelectorAll(".button")
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', () => {
                 // console.log('haha')
-                if (this.mark === '' && buttons[i].disabled != true) {
+                if (this.mark === '' && buttons[i].disabled !== true) {
                     this.mark = buttons[i].innerHTML;
-                    // console.log(buttons[i].className)
-                    // console.log(document.getElementsByClassName(`${buttons[i].className}`))
-                    const options = document.getElementsByClassName(`${buttons[i].className}`)
-                    for (let j = 0; j < options.length; j++) {
-                        options[j].disabled = true
-                        options[j].style.backgroundColor = "#F65158";
-                    }
-                    // options.forEach(option => option.disabled = true)
-                    // console.log(document.querySelectorAll(`.${buttons[i].className}`))
-                    // document.querySelectorAll(`.${buttons[i].className}`).disabled = true
-                    console.log(`${this.name} has picked ${buttons[i]}`);
-                    // buttons[i].disabled = true;
+                    const selBtnArray = buttons[i].className.split(' ')
+                    const buttonClass = `${selBtnArray[0]} ${selBtnArray[1]}`
+                    const leftButton = document.querySelector(`.${selBtnArray[0]}.${selBtnArray[1]}.left`)
+                    const rightButton = document.querySelector(`.${selBtnArray[0]}.${selBtnArray[1]}.right`)
+                    leftButton.disabled = true;
+                    rightButton.disabled = true;
+                    const selectedOptions = [leftButton, rightButton]
+                    selectedOptions.forEach(option => {
+                        if (option.className === buttons[i].className) { option.style.border = "2px solid grey"; }
+                    })
+                    const selectedSideBtns = document.querySelectorAll(`.button.${selBtnArray[2]}`)
+                    selectedSideBtns.forEach(button => {
+                        if (button.className !== buttons[i].className) {
+                            button.disabled = true;
+                        }
+                    })
                 }
                 // console.log(buttons[i].innerHTML)
             })
@@ -130,19 +134,19 @@ class Player {
         const allBox = document.getElementsByClassName("box")
         for (let i = 0; i < allBox.length; i++) {
             allBox[i].addEventListener("click", e => {
-                console.log("clickclick")
                 if (this.turn) {
                     // console.log("clickturntrue")
-                    console.log(e.target.innerHTML === "")
+                    // console.log(e.target.innerHTML === "")
                     if (e.target.innerHTML === "") {
                         console.log(e.target.innerHTML)
                         this.updateField(e);
                         this.marker(e);
                         this.turn = !this.turn;
                         checkWinner();
-                        // console.log(e)
-                        console.log(e.target.innerHTML)
-                        console.log(`${this.name}, ${this.turn} ${counter}`)
+                        endOfGame();
+                        // // console.log(e)
+                        // console.log(e.target.innerHTML)
+                        // console.log(`${this.name}, ${this.turn} ${counter}`)
                     }
                 } else {
                     // console.log(takenAttr)
@@ -151,7 +155,8 @@ class Player {
                         document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("taken", true);
                     } else {
                         this.turn = this.turn;
-                    } console.log(`${this.name}, ${this.turn} ${counter}`)
+                    }
+                    // console.log(`${this.name}, ${this.turn} ${counter}`)
                 }
                 // console.log(counter)
             })
@@ -204,11 +209,11 @@ function checkHorizWin() {
             sum += playingField[i][j];
         }
         if (sum === 3) {
-            console.log(`${player1.name} has won!`);
+            // console.log(`${player1.name} has won!`);
             player1.hasWon = true;
         }
         if (sum === 30) {
-            console.log(`${player2.name} has won!`);
+            // console.log(`${player2.name} has won!`);
             player2.hasWon = true;
         }
     };
@@ -221,11 +226,11 @@ function checkVertWin() {
             sum += playingField[j][i];
         }
         if (sum === 3) {
-            console.log(`${player1.name} has won!`);
+            // console.log(`${player1.name} has won!`);
             player1.hasWon = true;
         }
         if (sum === 30) {
-            console.log(`${player2.name} has won!`);
+            // console.log(`${player2.name} has won!`);
             player2.hasWon = true;
         }
     }
@@ -233,28 +238,29 @@ function checkVertWin() {
 
 function checkDiagWin() {
     if (firstRow[0] + secRow[1] + thirdRow[2] === 3) {
-        console.log(`${player1.name} has won!`);
+        // console.log(`${player1.name} has won!`);
         player1.hasWon = true;
     }
     if (firstRow[0] + secRow[1] + thirdRow[2] === 30) {
-        console.log(`${player2.name} has won!`);
+        // console.log(`${player2.name} has won!`);
         player2.hasWon = true;
     }
     if (firstRow[2] + secRow[1] + thirdRow[0] === 3) {
-        console.log(`${player1.name} has won!`);
+        // console.log(`${player1.name} has won!`);
         player1.hasWon = true;
     }
     if (firstRow[2] + secRow[1] + thirdRow[0] === 30) {
-        console.log(`${player2.name} has won!`);
+        // console.log(`${player2.name} has won!`);
         player2.hasWon = true;
     }
 }
 
 function checkTie() {
     if (counter === 9 && player1.hasWon === false && player2.hasWon === false) {
-        console.log("It is a tie!");
+        // console.log("It is a tie!");
     }
 }
+
 
 function checkWinner() {
     checkHorizWin();
@@ -272,8 +278,15 @@ playerTwoHead = document.querySelector(".player2");
 playerTwoHead.textContent = player2.name.toUpperCase()
 
 // playGame()
+const gamebutton = document.querySelector(".gamebtn")
+gamebutton.addEventListener("click", clearField1)
 
-
+function endOfGame() {
+    if (player1.hasWon === true || player2.hasWon === true || counter === 9 && player1.hasWon === false && player2.hasWon === false) {
+        // console.log("end game")
+        gamebutton.textContent = "Play Again"
+    }
+}
 function clearField1() {
     const fieldBoxes = document.querySelectorAll(".box")
     // fieldBoxes.forEach(box => {
@@ -291,9 +304,13 @@ function clearField1() {
     const buttons = document.querySelectorAll('button')
     buttons.forEach(button => {
         button.disabled = false;
-        button.style.backgroundColor = "white";
+        button.style.border = "none";
+        // button.style.backgroundColor = "#081b29";
+        // button.style.
+        // button.addEventListener('mo')
+        // button.style.hover
     })
-    field.createField();
+    // field.createField();
     player1.turn = true;
     player2.turn = false;
     player1.mark = '';
@@ -302,10 +319,8 @@ function clearField1() {
     player2.pickMarker();
     player1.whosTurn();
     player2.whosTurn();
+    // reload()
 }
-
-gamebutton = document.querySelector(".gamebtn")
-gamebutton.addEventListener("click", clearField1)
 
 const buttons = document.querySelectorAll('button')
 const numbers = [1, 2, 3, 4]
