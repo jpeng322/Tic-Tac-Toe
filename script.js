@@ -118,7 +118,6 @@ class Player {
                         }
                     })
                 }
-                // console.log(buttons[i].innerHTML)
             })
         }
     }
@@ -134,31 +133,42 @@ class Player {
         const allBox = document.getElementsByClassName("box")
         for (let i = 0; i < allBox.length; i++) {
             allBox[i].addEventListener("click", e => {
-                if (this.turn) {
-                    // console.log("clickturntrue")
-                    // console.log(e.target.innerHTML === "")
-                    if (e.target.innerHTML === "") {
-                        console.log(e.target.innerHTML)
-                        this.updateField(e);
-                        this.marker(e);
-                        this.turn = !this.turn;
-                        checkWinner();
-                        endOfGame();
-                        // // console.log(e)
-                        // console.log(e.target.innerHTML)
-                        // console.log(`${this.name}, ${this.turn} ${counter}`)
-                    }
-                } else {
-                    // console.log(takenAttr)
-                    if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false') {
-                        this.turn = !this.turn;
-                        document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("taken", true);
+                const inGame = document.querySelector(".gamebtn").getAttribute("ingame")
+                if (inGame === "true") {
+                    if (this.turn) {
+                        // console.log("clickturntrue")
+                        // console.log(e.target.innerHTML === "")
+                        if (e.target.innerHTML === "") {
+                            // console.log(e.target.innerHTML)
+                            this.updateField(e);
+                            this.marker(e);
+                            this.turn = !this.turn;
+                            checkWinner();
+                            endOfGame();
+                            // // console.log(e)
+                            // console.log(e.target.innerHTML)
+                            // console.log(`${this.name}, ${this.turn} ${counter}`)
+                        }
                     } else {
-                        this.turn = this.turn;
+                        // console.log(takenAttr)
+                        if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false') {
+                            this.turn = !this.turn;
+                            document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("taken", true);
+                        } else {
+                            this.turn = this.turn;
+                        }
+                        console.log(`Player 1: ${player2.hasWon}`);
+                        console.log(`Player 2: ${player2.hasWon}`);
+                        console.log(counter);
+                        console.log(playingField)
+                        console.log(firstRow)
+                        console.log(secRow)
                     }
-                    // console.log(`${this.name}, ${this.turn} ${counter}`)
                 }
-                // console.log(counter)
+                // console.log(typeof inGame)
+                // console.log(inGame)
+                // console.log(inGame === true)
+
             })
         }
     }
@@ -190,9 +200,9 @@ class theField {
 
 const field = new theField;
 field.createField();
-const firstRow = playingField[0]
-const secRow = playingField[1]
-const thirdRow = playingField[2]
+let firstRow = playingField[0]
+let secRow = playingField[1]
+let thirdRow = playingField[2]
 const player1 = new Player("Jacky");
 const player2 = new Player("Mei");
 player1.turn = true;
@@ -279,12 +289,29 @@ playerTwoHead.textContent = player2.name.toUpperCase()
 
 // playGame()
 const gamebutton = document.querySelector(".gamebtn")
-gamebutton.addEventListener("click", clearField1)
+gamebutton.setAttribute("inGame", false)
+gamebutton.addEventListener("click", () => {
+    clearField1();
+    hideButton();
+})
+
+function hideButton() {
+    gamebutton.setAttribute("inGame", true)
+    gamebutton.style.display = "none"
+}
 
 function endOfGame() {
     if (player1.hasWon === true || player2.hasWon === true || counter === 9 && player1.hasWon === false && player2.hasWon === false) {
         // console.log("end game")
-        gamebutton.textContent = "Play Again"
+        gamebutton.textContent = "Play Again";
+        gamebutton.style.display = "block";
+        gamebutton.setAttribute("inGame", false)
+        playingField = [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]];
+        firstRow = playingField[0]
+        secRow = playingField[1]
+        thirdRow = playingField[2]
     }
 }
 function clearField1() {
@@ -315,10 +342,13 @@ function clearField1() {
     player2.turn = false;
     player1.mark = '';
     player2.mark = '';
+    player1.hasWon = false;
+    player2.hasWon = false;
     player1.pickMarker();
     player2.pickMarker();
     player1.whosTurn();
     player2.whosTurn();
+    counter = 0
     // reload()
 }
 

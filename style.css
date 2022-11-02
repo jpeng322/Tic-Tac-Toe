@@ -68,8 +68,10 @@ body {
 }
 
 .gamebtn {
-    width: auto;
+    width: 120px;
     height: auto;
+    padding: 10px 20px;
+    /* display: none; */
 }
 
 .markers {
