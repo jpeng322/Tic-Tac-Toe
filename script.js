@@ -8,6 +8,8 @@
 
 //player one inputs 1, player 2 inputs value 2, loop through arrays and add and see if it equals to 3 or 6
 //if 3, the  player 1 won, if 6 then player 2 won
+
+
 let counter = 0
 
 
@@ -121,6 +123,14 @@ class Player {
             })
         }
     }
+    // hoverMarker() {
+    //     const allBox = document.getElementsByClassName("box")
+    //     for (let i = 0; i < allBox.length; i++) {
+    //         all[i].addEventListener("mouseover", (e) => {
+    //             console.log('ha')
+    //         })
+    //     }
+    // }
 
     //adds a mark to the selected box
     marker(e) {
@@ -134,20 +144,16 @@ class Player {
         for (let i = 0; i < allBox.length; i++) {
             allBox[i].addEventListener("click", e => {
                 const inGame = document.querySelector(".gamebtn").getAttribute("ingame")
-                if (inGame === "true") {
+                if (inGame === "true" && this.mark !== "") {
                     if (this.turn) {
-                        // console.log("clickturntrue")
-                        // console.log(e.target.innerHTML === "")
                         if (e.target.innerHTML === "") {
-                            // console.log(e.target.innerHTML)
                             this.updateField(e);
                             this.marker(e);
                             this.turn = !this.turn;
                             checkWinner();
                             endOfGame();
-                            // // console.log(e)
-                            // console.log(e.target.innerHTML)
-                            // console.log(`${this.name}, ${this.turn} ${counter}`)
+                            // this.hoverMarker();
+                            console.log(e)
                         }
                     } else {
                         // console.log(takenAttr)
@@ -157,18 +163,8 @@ class Player {
                         } else {
                             this.turn = this.turn;
                         }
-                        console.log(`Player 1: ${player2.hasWon}`);
-                        console.log(`Player 2: ${player2.hasWon}`);
-                        console.log(counter);
-                        console.log(playingField)
-                        console.log(firstRow)
-                        console.log(secRow)
                     }
                 }
-                // console.log(typeof inGame)
-                // console.log(inGame)
-                // console.log(inGame === true)
-
             })
         }
     }
@@ -176,7 +172,7 @@ class Player {
 
 class theField {
     createField() {
-        const container = document.querySelector(".container")
+        const container = document.querySelector("#container")
 
         for (let i = 0; i < 9; i++) {
             const box = document.createElement('div');
@@ -199,6 +195,10 @@ class theField {
 }
 
 const field = new theField;
+const markers = document.querySelectorAll(".markersBeforeGame");
+console.log(markers)
+const gameState = document.querySelector(".gamebtn").getAttribute("ingame");
+const container = document.querySelector("#container");
 field.createField();
 let firstRow = playingField[0]
 let secRow = playingField[1]
@@ -293,11 +293,13 @@ gamebutton.setAttribute("inGame", false)
 gamebutton.addEventListener("click", () => {
     clearField1();
     hideButton();
+    document.querySelector("#container").className = "container"
 })
 
 function hideButton() {
     gamebutton.setAttribute("inGame", true)
     gamebutton.style.display = "none"
+    markers.forEach(marker => marker.className = "markers")
 }
 
 function endOfGame() {
@@ -354,3 +356,11 @@ function clearField1() {
 
 const buttons = document.querySelectorAll('button')
 const numbers = [1, 2, 3, 4]
+
+function beforeGameField() {
+    if (gameState !== "true") {
+        container.className = "container-beforeGame"
+
+    }
+}
+beforeGameField()

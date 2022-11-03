@@ -72,6 +72,7 @@ body {
     height: auto;
     padding: 10px 20px;
     /* display: none; */
+    cursor: pointer;
 }
 
 .markers {
@@ -88,6 +89,10 @@ body {
     padding: 1rem;
 }
 
+.markersBeforeGame {
+    display: none
+}
+
 .markers>* {
     /* border: 1px solid red; */
     display: flex;
@@ -102,8 +107,8 @@ body {
     border-radius: 16px;
     width: 100%;
     height: 100%;
-    color: red;
     justify-self: center;
+    cursor: grab;
 }
 
 button {
@@ -126,6 +131,10 @@ button {
     right: 11px;
 }
 
+.container-beforeGame {
+    display: none
+}
+
 .box {
     border: 5px solid #F65158;
     width: 200px;
@@ -133,6 +142,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 
 }
 
@@ -189,8 +199,7 @@ button {
     color: #0c6eb9;
 }
 
-
-.icon-inner {
+.circle .icon-inner {
     border: 1px solid white;
 }
 

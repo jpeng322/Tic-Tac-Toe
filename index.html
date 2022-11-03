@@ -17,7 +17,42 @@
 </head>
 
 <body>
-    <div class="left markers">Container left
+    <style>
+        body {
+            animation: fadeInAnimation ease 3s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+
+        }
+
+        .container {
+            animation: fadeInAnimation ease 3s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+
+        }
+    </style>
+    <div class="left markersBeforeGame">Container left
         <div>
             <button class="circle button left">
                 <ion-icon class='circle option' name='ellipse-outline'>.</ion-icon>
@@ -51,10 +86,10 @@
             <div>vs</div>
             <div class="player2">Player 2</div>
         </div>
-        <div class="container"></div>
+        <div class="" id="container"></div>
         <div><button class="gamebtn">Start Game</button></div>
     </div>
-    <div class="right markers">Container right
+    <div class="right markersBeforeGame">Container right
         <div>
             <button class="circle button right">
                 <ion-icon class='circle option' name='ellipse-outline'>.</ion-icon>
