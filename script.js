@@ -94,6 +94,7 @@ class Player {
                 thirdRow[2] = 10;
             }
         }
+        // console.log(e.target.value)
     }
 
     pickMarker() {
@@ -101,7 +102,7 @@ class Player {
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', () => {
                 // console.log('haha')
-                if (this.mark === '' && buttons[i].disabled !== true) {
+                if (this.mark === "" && buttons[i].disabled !== true) {
                     this.mark = buttons[i].innerHTML;
                     const selBtnArray = buttons[i].className.split(' ')
                     const buttonClass = `${selBtnArray[0]} ${selBtnArray[1]}`
@@ -109,7 +110,7 @@ class Player {
                     const rightButton = document.querySelector(`.${selBtnArray[0]}.${selBtnArray[1]}.right`)
                     leftButton.disabled = true;
                     rightButton.disabled = true;
-                    const selectedOptions = [leftButton, rightButton]
+                    const selectedOptions = [leftButton, rightButton];
                     selectedOptions.forEach(option => {
                         if (option.className === buttons[i].className) { option.style.border = "2px solid grey"; }
                     })
@@ -123,17 +124,40 @@ class Player {
             })
         }
     }
-    // hoverMarker() {
-    //     const allBox = document.getElementsByClassName("box")
-    //     for (let i = 0; i < allBox.length; i++) {
-    //         all[i].addEventListener("mouseover", (e) => {
-    //             console.log('ha')
-    //         })
-    //     }
-    // }
+    hoverMarker() {
+        const allBox = document.getElementsByClassName("box")
+        for (let i = 0; i < allBox.length; i++) {
+            allBox[i].addEventListener("mouseenter", (e) => {
+                // console.log(e.target.value)
+                if (this.turn && document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false' && this.mark !== "") {
+                    // this.mark.classList.add("darkened")
+                    // console.log(typeof this.mark.innerHTML)
+                    // let htmlObject = document.createElement("div")
+                    // htmlObject.innerHTML = `${this.mark.innerHTML}`
+                    // console.log(htmlObject)
+                    // let child = htmlObject.childNodes[1].classList.add("darkened")
+                    // child[1].classList.add("darkened")
+                    // console.log(child)
+                    // console.log(htmlObject)
+                    // e.target.innerHTML = htmlObject.childNodes[1].toString()
+                    // console.log(htmlObject.childNodes[1].toString())
+                    e.target.innerHTML = this.mark
+                }
+            })
+            allBox[i].addEventListener("mouseleave", (e) => {
+                // console.log(e.target.textContent)
+                if (this.turn) {
+                    if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false') {
+                        e.target.innerHTML = "";
+                    }
+                }
+            })
+        }
+    }
+
 
     //adds a mark to the selected box
-    marker(e) {
+    putMarker(e) {
         counter += 1;
         e.target.innerHTML = this.mark;
 
@@ -143,28 +167,42 @@ class Player {
         const allBox = document.getElementsByClassName("box")
         for (let i = 0; i < allBox.length; i++) {
             allBox[i].addEventListener("click", e => {
+                // console.log(`${this.name} ${this.turn} before`)
                 const inGame = document.querySelector(".gamebtn").getAttribute("ingame")
                 if (inGame === "true" && this.mark !== "") {
                     if (this.turn) {
-                        if (e.target.innerHTML === "") {
-                            this.updateField(e);
-                            this.marker(e);
+                        // console.log(e.target.textContent === "")
+                        // console.log(e.target.textContent)
+                        // if (e.target.textContent === "") {
+                        if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("hovering") === "true") {
+                            document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("hovering", false)
+                            this.putMarker(e);
                             this.turn = !this.turn;
+                            // console.log(`${this.name} ${this.turn}`)
+                            e.target.value = `${i}`
+                            // console.log(e.target)
+                            this.updateField(e);
                             checkWinner();
                             endOfGame();
                             // this.hoverMarker();
-                            console.log(e)
+                            // console.log(e)
+                            // console.log(e.target.value)
+                            // console.log(playingField)
+                            // console.log(this.mark.classList.add("darkened"))
+                            // console.log(this.mark.textContent)
                         }
                     } else {
                         // console.log(takenAttr)
-                        if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false') {
+                        if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === "false") {
                             this.turn = !this.turn;
                             document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("taken", true);
                         } else {
                             this.turn = this.turn;
                         }
+                        console.log(`${this.name} ${this.turn}`)
                     }
                 }
+                // console.log(`${this.name} ${this.turn} after`)
             })
         }
     }
@@ -183,6 +221,7 @@ class theField {
             // box.innerHTML = "<ion-icon class='cross' name='close-outline'></ion-icon>"
             box.innerHTML = ""
             box.setAttribute('taken', false);
+            box.setAttribute("hovering", true)
             container.appendChild(box);
 
         }
@@ -196,7 +235,7 @@ class theField {
 
 const field = new theField;
 const markers = document.querySelectorAll(".markersBeforeGame");
-console.log(markers)
+// console.log(markers)
 const gameState = document.querySelector(".gamebtn").getAttribute("ingame");
 const container = document.querySelector("#container");
 field.createField();
@@ -210,6 +249,9 @@ player1.pickMarker();
 player2.pickMarker();
 player1.whosTurn();
 player2.whosTurn();
+player1.hoverMarker()
+player2.hoverMarker()
+
 
 
 function checkHorizWin() {
@@ -325,6 +367,7 @@ function clearField1() {
     // })
     for (let i = 0; i < 9; i++) {
         fieldBoxes[i].setAttribute("taken", false);
+        fieldBoxes[i].setAttribute("hovering", true);
         if (fieldBoxes[i].childNodes.length > 0) {
             fieldBoxes[i].removeChild(fieldBoxes[i].querySelector("ion-icon"));
             fieldBoxes[i].innerHTML = "";
