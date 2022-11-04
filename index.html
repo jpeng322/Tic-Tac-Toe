@@ -12,47 +12,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@1,700&display=swap" rel="stylesheet">
-
+    <link rel="icon" href="images/tic-tac-toe.png">
 
 </head>
 
 <body>
-    <style>
-        body {
-            animation: fadeInAnimation ease 3s;
-            animation-iteration-count: 1;
-            animation-fill-mode: forwards;
-        }
-
-        @keyframes fadeInAnimation {
-            0% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
-            }
-
-        }
-
-        .container {
-            animation: fadeInAnimation ease 3s;
-            animation-iteration-count: 1;
-            animation-fill-mode: forwards;
-        }
-
-        @keyframes fadeInAnimation {
-            0% {
-                opacity: 0;
-            }
-
-            100% {
-                opacity: 1;
-            }
-
-        }
-    </style>
-    <div class="left markersBeforeGame">Container left
+    <div class="markers-hide">
+        <p class="containerText">Container left</p>
         <div>
             <button class="circle button left">
                 <ion-icon class='circle option' name='ellipse-outline'>.</ion-icon>
@@ -64,16 +30,11 @@
             </button>
         </div>
         <div>
-            <!-- <button class="square"> -->
-            <!-- <ion-icon class='square option' name="square-outline">.</ion-icon> -->
             <button class="star button left">
                 <ion-icon class='star option' name="star-outline">.</ion-icon>
             </button>
         </div>
         <div>
-            <!-- <button class="cross">
-                <ion-icon class='cross option' name='close-outline'>.</ion-icon>
-            </button> -->
             <button class="umbrella button left">
                 <ion-icon class="umbrella option" name="umbrella-outline">.</ion-icon>
             </button>
@@ -81,18 +42,34 @@
     </div>
     <div class="middle">
         <header class="title">TIC-TAC-TOE</header>
+        <!-- <div class="winnerText">Who is the winner?</div> -->
         <div class="playervs">
-            <div class="player1">Player 1</div>
+            <input type="text" id="playerOne" placeholder="Player Name">
+            <div class="player1"></div>
             <div>vs</div>
-            <div class="player2">Player 2</div>
+            <div class="player2"></div>
+            <input type="text" id="playerTwo" value="" placeholder="Player Name">
+
         </div>
         <div class="" id="container"></div>
-        <div><button class="gamebtn">Start Game</button></div>
+        <div><button type="submit" class="gamebtn">Start Game</button></div>
+        <div class="logos">
+            <div>
+                <ion-icon class="logo circle" name='ellipse-outline'>.</ion-icon>
+            </div>
+            <div>
+                <ion-icon class="logo triangle" name="triangle-outline">.</ion-icon>
+            </div>
+            <div>
+                <ion-icon class="logo square" name="square-outline"></ion-icon>
+            </div>
+        </div>
     </div>
-    <div class="right markersBeforeGame">Container right
+    <div class="markers-hide">
+        <p class="containerText">Container right</p>
         <div>
             <button class="circle button right">
-                <ion-icon class='circle option' name='ellipse-outline'>.</ion-icon>
+                <ion-icon class=' circle option' name='ellipse-outline'>.</ion-icon>
             </button>
         </div>
         <div>

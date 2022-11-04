@@ -1,6 +1,6 @@
 @font-face {
     font-family: squidFont;
-    src: url(game_of_squids/Game\ Of\ Squids.otf);
+    src: url(squid-game-font/Game\ Of\ Squids.otf);
 }
 
 html>* {
@@ -19,9 +19,28 @@ html {
     align-items: center;
 }
 
+body,
+.container,
+.markers,
+input {
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
 
 body {
-    /* border: 1px solid white; */
+
     display: flex;
     justify-content: center;
     align-content: center;
@@ -29,45 +48,40 @@ body {
     gap: 6rem;
 }
 
-/* body>* {
-    border: 1px solid white;
-} */
 
 .middle {
-    /* border: 1px solid white; */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* width: 800px; */
 }
 
 
 .middle>* {
-    /* border: 1px solid white; */
     margin-bottom: 2rem;
 }
 
+.winnerText {
+    margin-bottom: 0px;
+    color: white
+}
 
 .title {
     color: #F65158;
     text-align: center;
     font-size: 5.5rem;
+    margin-bottom: 0px;
+    padding: 0px;
 }
 
 
 .playervs {
     color: #F65158;
     display: flex;
-    /* width: 600px; */
     gap: 1.5rem;
     justify-content: space-evenly;
-    /* border: 1px solid red; */
 }
 
-.playervs>* {
-    /* border: 1px solid green; */
-}
 
 .logos {
     display: flex;
@@ -87,14 +101,22 @@ body {
     padding: 10px 20px;
     /* display: none; */
     cursor: pointer;
+    /* background-color: #081b29; */
+    background-color: #041420;
+    color: #F65158;
+}
+
+.gamebtn:hover {
+    background-color: #0f2537;
+    transition: .2s;
+    transform: translateY(-2px);
 }
 
 .markers {
-    /* height: 50%;
-    width: 50%; */
     color: #858585;
     font-size: 1rem;
     height: 500px;
+    width: 156px;
     align-self: center;
     border-radius: 1rem;
     border: 2px solid #F65158;
@@ -103,17 +125,21 @@ body {
     padding: 1rem;
 }
 
-.markersBeforeGame {
-    display: none
+.markers-hide {
+    display: none;
 }
 
-.markers>* {
-    /* border: 1px solid red; */
+.markers>div {
     display: flex;
     flex: 1;
     width: 100%;
     justify-content: center;
     align-items: center;
+}
+
+.containerText {
+    width: 100%;
+    text-align: center;
 }
 
 .option {
@@ -135,12 +161,10 @@ button {
 }
 
 .container {
-    /* border: 1px solid red; */
     height: 600px;
     width: 600px;
     display: grid;
     grid-template-columns: repeat(3, auto);
-    /* grid-template-rows: repeat(3, auto); */
     position: relative;
     right: 11px;
 }
@@ -161,7 +185,6 @@ button {
 }
 
 .box>p {
-    /* border: 1px solid red; */
     height: 100%;
     width: 100%;
     display: flex;
@@ -220,9 +243,6 @@ button {
     border: none;
 }
 
-/* .button:hover:enabled {
-    background-color: #0f2537;
-} */
 
 .button[disabled]:hover {
     background-color: #081b29;
@@ -230,13 +250,6 @@ button {
 
 .button:hover {
     background-color: #0f2537;
-}
-
-*:disabled {
-    /* background-color: #b69797; */
-    /* border: 2px solid #858585; */
-    /* border: none; */
-
 }
 
 .circle {
@@ -248,10 +261,8 @@ button {
 }
 
 input[type=text] {
-    /* border-radius: 10px; */
     cursor: pointer;
     color: black;
-    /* border: none; */
 }
 
 input[type=text]:hover {

@@ -1,15 +1,3 @@
-// Tic Tac Toe game
-//Two players - connect the 3 different things to win
-//Have a class with player that can click and put a mark
-// The player will have parameters- a mark
-//clicking within the BOX field will cause a counter to increase by 1
-//if counter is odd then player 1 goes, if the counter if 2 then player to goes
-//each spot on the 3x3 board will have a value, the value will then be the index of the array for the board
-
-//player one inputs 1, player 2 inputs value 2, loop through arrays and add and see if it equals to 3 or 6
-//if 3, the  player 1 won, if 6 then player 2 won
-
-
 let counter = 0
 let sidesPicked = 0
 
@@ -30,7 +18,7 @@ class Player {
     //updates playingField array with value associated with player
     updateField(e) {
         const boxVal = e.target.value
-        const playerOneTurn = counter % 2 === 0
+        const playerOneTurn = counter % 2 === 1
         if (boxVal === "0") {
             if (playerOneTurn) {
                 firstRow[0] = 1;
@@ -97,23 +85,27 @@ class Player {
         // console.log(e.target.value)
     }
 
+
+    //checks to see if the markers have been selected yet, if so disabled the other buttons
     pickMarker() {
         let buttons = document.querySelectorAll(".button")
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', () => {
-                // console.log('haha')
                 if (this.mark === "" && buttons[i].disabled !== true) {
-                    this.mark = buttons[i];
+                    //makes the player's mark the selected button
+                    this.mark = buttons[i].innerHTML;
                     const selBtnArray = buttons[i].className.split(' ')
-                    const buttonClass = `${selBtnArray[0]} ${selBtnArray[1]}`
+                    //creates variables to disable the mark for both sides, i.e. if the left player takes circle, the right circle is also disabled
                     const leftButton = document.querySelector(`.${selBtnArray[0]}.${selBtnArray[1]}.left`)
                     const rightButton = document.querySelector(`.${selBtnArray[0]}.${selBtnArray[1]}.right`)
                     leftButton.disabled = true;
                     rightButton.disabled = true;
                     const selectedOptions = [leftButton, rightButton];
+                    //outlines the button that is selected
                     selectedOptions.forEach(option => {
                         if (option.className === buttons[i].className) { option.style.border = "2px solid grey"; }
                     })
+                    //disables all-non selected buttons
                     const selectedSideBtns = document.querySelectorAll(`.button.${selBtnArray[2]}`)
                     selectedSideBtns.forEach(button => {
                         if (button.className !== buttons[i].className) {
@@ -122,40 +114,28 @@ class Player {
                     })
                     sidesPicked += 1
                 }
-                // for (i = 0; i < buttons.length; i++) {
-                //     if (buttons[i].disabled === true) {
-                //         buttonsDisabled += 1
-                //     }
-                // }
-                // console.log(buttonsDisabled)
             })
         }
     }
+
+    //shows the mark of the next player's turn on the hovered box
     hoverMarker() {
         const allBox = document.getElementsByClassName("box")
         for (let i = 0; i < allBox.length; i++) {
             allBox[i].addEventListener("mouseenter", (e) => {
-                // console.log(e.target.value)
-                if (sidesPicked === 2 && this.turn && document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false' && this.mark !== "") {
-                    // this.mark.classList.add("darkened")
-                    // console.log(typeof this.mark.innerHTML)
-                    let htmlObject = document.createElement("div")
-                    htmlObject.innerHTML = `${this.mark.innerHTML}`
-                    // console.log(htmlObject)
-                    htmlObject.childNodes[1].classList.add("darkened")
-                    // child[1].classList.add("darkened")
-                    // console.log(child)
-                    // console.log(htmlObject.innerHTML)
-                    // e.target.innerHTML = htmlObject.childNodes[1].toString()
-                    // console.log(htmlObject.childNodes[1].toString())
-                    e.target.innerHTML = htmlObject.innerHTML
-                    console.log(htmlObject.innerHTML)
+                //when entered, if both marks are picked, if the player picking has a mark selected, and the box is not taken, the box will show the player's selected mark as it hovers over the entered box
+                if (sidesPicked === 2 && this.turn && document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === "false" && this.mark !== "") {
+                    //creates a div and makes innerHTML of it the mark's text so that it becomes a node, adds class darkened to the node that darkens the mark
+                    let markDiv = document.createElement("div")
+                    markDiv.innerHTML = `${this.mark}`
+                    markDiv.childNodes[1].classList.add("darkened")
+                    e.target.innerHTML = markDiv.innerHTML
                 }
             })
             allBox[i].addEventListener("mouseleave", (e) => {
-                // console.log(e.target.textContent)
+                //when exited, the hovered darkened mark will disappear since e.target.HTML will be empty if the box has not been selected already
                 if (this.turn) {
-                    if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false') {
+                    if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === "false") {
                         e.target.innerHTML = "";
                     }
                 }
@@ -164,110 +144,86 @@ class Player {
     }
 
 
-    //adds a mark to the selected box
+    //puts down the mark on the selected box
     putMarker(e) {
         counter += 1;
-        e.target.innerHTML = this.mark.innerHTML;
-
-
+        e.target.innerHTML = this.mark;
     }
 
-    whosTurn() {
+    playTurn() {
         const allBox = document.getElementsByClassName("box")
         for (let i = 0; i < allBox.length; i++) {
             allBox[i].addEventListener("click", e => {
-                // console.log(`${this.name} ${this.turn} before`)
+                //if the game has started and both markers are picked, remove the darkened attribute to get the colored mark onto the selected box
                 const inGame = document.querySelector(".gamebtn").getAttribute("ingame")
                 if (sidesPicked === 2 && inGame === "true" && this.mark !== "") {
+                    //if it is the players turn, put their chosen mark onto the box that was clicked, give the box a value associated with the player to determine 
+                    //the winner for the future, change their turn false, and check whether there was a winner or not
                     if (this.turn) {
                         e.target.classList.remove("darkened")
-                        // console.log(e.target.textContent === "")
-                        // console.log(e.target.textContent)
-                        // if (e.target.textContent === "") 
                         if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("hovering") === "true") {
                             document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("hovering", false)
                             this.putMarker(e);
                             this.turn = !this.turn;
-                            // console.log(`${this.name} ${this.turn}`)
-                            e.target.value = `${i}`
-                            // console.log(e.target)
+                            e.target.value = `${i}`;
                             this.updateField(e);
                             checkWinner();
                             endOfGame();
-                            // console.log(this.mark.innerHTML)
-                            // this.hoverMarker();
-                            // console.log(e)
-                            // console.log(e.target.value)
-                            // console.log(playingField)
-                            // console.log(this.mark.classList.add("darkened"))
-                            // console.log(this.mark.textContent)
                         }
+                        //if it is not the players turn, set the box's availibility to taken so the next player's turn cannot take it, then change their turn to true so they can go next
                     } else {
-                        // console.log(takenAttr)
                         if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === "false") {
                             this.turn = !this.turn;
                             document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("taken", true);
                         } else {
                             this.turn = this.turn;
                         }
-                        console.log(`${this.name} ${this.turn}`)
                     }
+                    console.log(`${this.name}, ${this.turn}, ${counter}`)
                 }
-                // console.log(`${this.name} ${this.turn} after`)
             })
         }
     }
 }
 
+//creates 3x3 box and gives attributes to each box
 class theField {
     createField() {
         const container = document.querySelector("#container")
-
         for (let i = 0; i < 9; i++) {
             const box = document.createElement('div');
             box.className = `box ${i}`;
             box.id = `box-${i}`
-            box.value = `${i}`;
-            // box.innerHTML = "<ion-icon class='circle' name='ellipse-outline'></ion-icon>";
-            // box.innerHTML = "<ion-icon class='cross' name='close-outline'></ion-icon>"
-            box.innerHTML = ""
+            box.innerHTML = "";
             box.setAttribute('taken', false);
-            box.setAttribute("hovering", true)
+            box.setAttribute("hovering", true);
             container.appendChild(box);
-
-        }
-    }
-    clearField() {
-        for (let i = 0; i < 9; i++) {
 
         }
     }
 }
 
+
 const field = new theField;
-const markers = document.querySelectorAll(".markersBeforeGame");
-// console.log(markers)
 const gameState = document.querySelector(".gamebtn").getAttribute("ingame");
 const container = document.querySelector("#container");
 field.createField();
 let firstRow = playingField[0]
 let secRow = playingField[1]
 let thirdRow = playingField[2]
-// const player1 = new Player(document.getElementById("playerOne").value);
-// const player2 = new Player(document.getElementById("playerTwo").value);
 const player1 = new Player("");
 const player2 = new Player("");
 player1.turn = true;
 player1.pickMarker();
 player2.pickMarker();
-player1.whosTurn();
-player2.whosTurn();
+player1.playTurn();
+player2.playTurn();
 player1.hoverMarker()
 player2.hoverMarker()
 const playerOneInput = document.getElementById("playerOne")
 const playerTwoInput = document.getElementById("playerTwo")
-
-
+// const winnerText = document.querySelector(".winnerText")
+//loops through all horizontal rows to see if there is 3 in a row
 function checkHorizWin() {
     for (let i = 0; i < playingField.length; i++) {
         let sum = 0;
@@ -276,15 +232,18 @@ function checkHorizWin() {
         }
         if (sum === 3) {
             // console.log(`${player1.name} has won!`);
+            // winnerText.textContent = `${player1.name} has won!`
             player1.hasWon = true;
         }
         if (sum === 30) {
             // console.log(`${player2.name} has won!`);
+            // winnerText.textContent = `${player2.name} has won!`
             player2.hasWon = true;
         }
     };
 }
 
+//loops through all vertical rows to see if there is 3 in a row
 function checkVertWin() {
     for (let i = 0; i < playingField.length; i++) {
         let sum = 0;
@@ -294,29 +253,36 @@ function checkVertWin() {
         if (sum === 3) {
             // console.log(`${player1.name} has won!`);
             player1.hasWon = true;
+            // winnerText.textContent = `${player1.name} has won!`
         }
         if (sum === 30) {
             // console.log(`${player2.name} has won!`);
+            // winnerText.textContent = `${player2.name} has won!`
             player2.hasWon = true;
         }
     }
 }
 
+//loops through all diagonal rows to see if there is 3 in a row
 function checkDiagWin() {
     if (firstRow[0] + secRow[1] + thirdRow[2] === 3) {
         // console.log(`${player1.name} has won!`);
+        // winnerText.textContent = `${player1.name} has won!`
         player1.hasWon = true;
     }
     if (firstRow[0] + secRow[1] + thirdRow[2] === 30) {
         // console.log(`${player2.name} has won!`);
+        // winnerText.textContent = `${player2.name} has won!`
         player2.hasWon = true;
     }
     if (firstRow[2] + secRow[1] + thirdRow[0] === 3) {
         // console.log(`${player1.name} has won!`);
+        // winnerText.textContent = `${player1.name} has won!`
         player1.hasWon = true;
     }
     if (firstRow[2] + secRow[1] + thirdRow[0] === 30) {
         // console.log(`${player2.name} has won!`);
+        // winnerText.textContent = `${player2.name} has won!`
         player2.hasWon = true;
     }
 }
@@ -333,32 +299,47 @@ function checkWinner() {
     checkVertWin();
     checkDiagWin();
     checkTie();
-    // console.log('checked');
-    // console.log(player1.hasWon)
-    // console.log(player2.hasWon)
 }
 
-
-
-// playGame()
+//provides attribute to button
 const gamebutton = document.querySelector(".gamebtn")
 gamebutton.setAttribute("inGame", false)
 gamebutton.addEventListener("click", () => {
+    //give the mark container text a random player number
+    let containerText = document.getElementsByClassName("containerText")
+    for (let i = 0; i < containerText.length; i++) {
+        // containerText[i].textContent = `PLAYER ${Math.ceil(Math.random() * 456)}`
+        containerText[i].textContent = `player${i + 1}`;
+        // containerText[i].textContent = `player${i + 1}`
+    }
+    //checks if player names are inputted, if not game cannot start
     player1.name = playerOneInput.value
     player2.name = playerTwoInput.value
     if (player1.name !== "" && player2.name !== "") {
         resetButton();
-        clearField();
         document.querySelector("#container").className = "container"
+    } else {
+        alert("Please fill out both player names before starting the game!")
     }
 })
 
+//starts or resets the game by changing the game status
 function resetButton() {
     gamebutton.setAttribute("inGame", true)
     gamebutton.style.display = "none"
-    markers.forEach(marker => marker.className = "markers")
+    const markers = document.querySelectorAll(".markers-hide");
+    markers.forEach(marker => {
+        marker.classList.remove("markers-hide");
+        marker.classList.add("markers")
+    })
+    resetPlayers();
+    clearField();
+    playerTags();
+    counter = 0
+    sidesPicked = 0
 }
 
+//checks to see if player has won, if not the result is a tie, when the game ends reset field value
 function endOfGame() {
     if (player1.hasWon === true || player2.hasWon === true || counter === 9 && player1.hasWon === false && player2.hasWon === false) {
         // console.log("end game")
@@ -373,13 +354,10 @@ function endOfGame() {
         thirdRow = playingField[2]
     }
 }
+
+//clears the board, sets box attributes to default, restarts the buttons
 function clearField() {
     const fieldBoxes = document.querySelectorAll(".box")
-    // fieldBoxes.forEach(box => {
-    //     box.setAttribute("taken", false);
-    //     box.removeChild(box.querySelector("ion-icon"));
-    //     box.innerHTML = "";
-    // })
     for (let i = 0; i < 9; i++) {
         fieldBoxes[i].setAttribute("taken", false);
         fieldBoxes[i].setAttribute("hovering", true);
@@ -393,27 +371,22 @@ function clearField() {
         button.disabled = false;
         button.style.border = "none";
     })
-    // field.createField();
-    playerTags()
+}
+
+//reset player settings to default
+function resetPlayers() {
     player1.turn = true;
     player2.turn = false;
     player1.mark = '';
     player2.mark = '';
     player1.hasWon = false;
     player2.hasWon = false;
-    player1.pickMarker();
-    player2.pickMarker();
-    player1.whosTurn();
-    player2.whosTurn();
-    counter = 0
-    sidesPicked = 0
-    // reload()
 }
 
+//sets the player names to form input text
 function playerTags() {
     player1.name = playerOneInput.value
     player2.name = playerTwoInput.value
-    // const inGame = document.querySelector(".gamebtn").getAttribute("ingame")
     playerOneInput.style.display = "none";
     playerTwoInput.style.display = "none";
     playerOneHead = document.querySelector(".player1");
@@ -422,11 +395,10 @@ function playerTags() {
     playerTwoHead.textContent = player2.name.toUpperCase()
     const logo = document.querySelector(".logos");
     logo.style.display = "none";
-
 }
 
-// const buttons = document.querySelectorAll('button')
 
+//sets gameState as false until Start button is pressed
 function beforeGameField() {
     if (gameState !== "true") {
         container.className = "container-beforeGame"
@@ -434,3 +406,4 @@ function beforeGameField() {
     }
 }
 beforeGameField()
+
