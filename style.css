@@ -183,9 +183,6 @@ button {
 
 
 
-.circle {
-    color: green;
-}
 
 .triangle {
     color: red;
@@ -228,6 +225,10 @@ button {
 
 }
 
+.circle {
+    color: green;
+}
+
 .darkened {
-    color: #B2B2B2;
+    color: #30343b62;
 }

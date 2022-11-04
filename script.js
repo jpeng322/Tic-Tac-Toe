@@ -11,7 +11,7 @@
 
 
 let counter = 0
-
+let sidesPicked = 0
 
 
 let playingField = [[0, 0, 0],
@@ -98,12 +98,12 @@ class Player {
     }
 
     pickMarker() {
-        const buttons = document.querySelectorAll(".button")
+        let buttons = document.querySelectorAll(".button")
         for (let i = 0; i < buttons.length; i++) {
             buttons[i].addEventListener('click', () => {
                 // console.log('haha')
                 if (this.mark === "" && buttons[i].disabled !== true) {
-                    this.mark = buttons[i].innerHTML;
+                    this.mark = buttons[i];
                     const selBtnArray = buttons[i].className.split(' ')
                     const buttonClass = `${selBtnArray[0]} ${selBtnArray[1]}`
                     const leftButton = document.querySelector(`.${selBtnArray[0]}.${selBtnArray[1]}.left`)
@@ -120,7 +120,14 @@ class Player {
                             button.disabled = true;
                         }
                     })
+                    sidesPicked += 1
                 }
+                // for (i = 0; i < buttons.length; i++) {
+                //     if (buttons[i].disabled === true) {
+                //         buttonsDisabled += 1
+                //     }
+                // }
+                // console.log(buttonsDisabled)
             })
         }
     }
@@ -129,19 +136,20 @@ class Player {
         for (let i = 0; i < allBox.length; i++) {
             allBox[i].addEventListener("mouseenter", (e) => {
                 // console.log(e.target.value)
-                if (this.turn && document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false' && this.mark !== "") {
+                if (sidesPicked === 2 && this.turn && document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("taken") === 'false' && this.mark !== "") {
                     // this.mark.classList.add("darkened")
                     // console.log(typeof this.mark.innerHTML)
-                    // let htmlObject = document.createElement("div")
-                    // htmlObject.innerHTML = `${this.mark.innerHTML}`
+                    let htmlObject = document.createElement("div")
+                    htmlObject.innerHTML = `${this.mark.innerHTML}`
                     // console.log(htmlObject)
-                    // let child = htmlObject.childNodes[1].classList.add("darkened")
+                    htmlObject.childNodes[1].classList.add("darkened")
                     // child[1].classList.add("darkened")
                     // console.log(child)
-                    // console.log(htmlObject)
+                    // console.log(htmlObject.innerHTML)
                     // e.target.innerHTML = htmlObject.childNodes[1].toString()
                     // console.log(htmlObject.childNodes[1].toString())
-                    e.target.innerHTML = this.mark
+                    e.target.innerHTML = htmlObject.innerHTML
+                    console.log(htmlObject.innerHTML)
                 }
             })
             allBox[i].addEventListener("mouseleave", (e) => {
@@ -159,7 +167,8 @@ class Player {
     //adds a mark to the selected box
     putMarker(e) {
         counter += 1;
-        e.target.innerHTML = this.mark;
+        e.target.innerHTML = this.mark.innerHTML;
+
 
     }
 
@@ -169,11 +178,12 @@ class Player {
             allBox[i].addEventListener("click", e => {
                 // console.log(`${this.name} ${this.turn} before`)
                 const inGame = document.querySelector(".gamebtn").getAttribute("ingame")
-                if (inGame === "true" && this.mark !== "") {
+                if (sidesPicked === 2 && inGame === "true" && this.mark !== "") {
                     if (this.turn) {
+                        console.log(e.target.classList.remove("darkened"))
                         // console.log(e.target.textContent === "")
                         // console.log(e.target.textContent)
-                        // if (e.target.textContent === "") {
+                        // if (e.target.textContent === "") 
                         if (document.getElementsByClassName(`box ${[i]}`)[0].getAttribute("hovering") === "true") {
                             document.getElementsByClassName(`box ${[i]}`)[0].setAttribute("hovering", false)
                             this.putMarker(e);
@@ -184,6 +194,7 @@ class Player {
                             this.updateField(e);
                             checkWinner();
                             endOfGame();
+                            console.log(this.mark.innerHTML)
                             // this.hoverMarker();
                             // console.log(e)
                             // console.log(e.target.value)
@@ -394,6 +405,7 @@ function clearField1() {
     player1.whosTurn();
     player2.whosTurn();
     counter = 0
+    sidesPicked = 0
     // reload()
 }
 
