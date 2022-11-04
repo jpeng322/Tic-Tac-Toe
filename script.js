@@ -180,7 +180,7 @@ class Player {
                 const inGame = document.querySelector(".gamebtn").getAttribute("ingame")
                 if (sidesPicked === 2 && inGame === "true" && this.mark !== "") {
                     if (this.turn) {
-                        console.log(e.target.classList.remove("darkened"))
+                        e.target.classList.remove("darkened")
                         // console.log(e.target.textContent === "")
                         // console.log(e.target.textContent)
                         // if (e.target.textContent === "") 
@@ -194,7 +194,7 @@ class Player {
                             this.updateField(e);
                             checkWinner();
                             endOfGame();
-                            console.log(this.mark.innerHTML)
+                            // console.log(this.mark.innerHTML)
                             // this.hoverMarker();
                             // console.log(e)
                             // console.log(e.target.value)
@@ -253,8 +253,10 @@ field.createField();
 let firstRow = playingField[0]
 let secRow = playingField[1]
 let thirdRow = playingField[2]
-const player1 = new Player("Jacky");
-const player2 = new Player("Mei");
+// const player1 = new Player(document.getElementById("playerOne").value);
+// const player2 = new Player(document.getElementById("playerTwo").value);
+const player1 = new Player("");
+const player2 = new Player("");
 player1.turn = true;
 player1.pickMarker();
 player2.pickMarker();
@@ -262,7 +264,8 @@ player1.whosTurn();
 player2.whosTurn();
 player1.hoverMarker()
 player2.hoverMarker()
-
+const playerOneInput = document.getElementById("playerOne")
+const playerTwoInput = document.getElementById("playerTwo")
 
 
 function checkHorizWin() {
@@ -335,21 +338,22 @@ function checkWinner() {
     // console.log(player2.hasWon)
 }
 
-playerOneHead = document.querySelector(".player1");
-playerOneHead.textContent = player1.name.toUpperCase()
-playerTwoHead = document.querySelector(".player2");
-playerTwoHead.textContent = player2.name.toUpperCase()
+
 
 // playGame()
 const gamebutton = document.querySelector(".gamebtn")
 gamebutton.setAttribute("inGame", false)
 gamebutton.addEventListener("click", () => {
-    clearField1();
-    hideButton();
-    document.querySelector("#container").className = "container"
+    player1.name = playerOneInput.value
+    player2.name = playerTwoInput.value
+    if (player1.name !== "" && player2.name !== "") {
+        resetButton();
+        clearField();
+        document.querySelector("#container").className = "container"
+    }
 })
 
-function hideButton() {
+function resetButton() {
     gamebutton.setAttribute("inGame", true)
     gamebutton.style.display = "none"
     markers.forEach(marker => marker.className = "markers")
@@ -369,7 +373,7 @@ function endOfGame() {
         thirdRow = playingField[2]
     }
 }
-function clearField1() {
+function clearField() {
     const fieldBoxes = document.querySelectorAll(".box")
     // fieldBoxes.forEach(box => {
     //     box.setAttribute("taken", false);
@@ -388,12 +392,9 @@ function clearField1() {
     buttons.forEach(button => {
         button.disabled = false;
         button.style.border = "none";
-        // button.style.backgroundColor = "#081b29";
-        // button.style.
-        // button.addEventListener('mo')
-        // button.style.hover
     })
     // field.createField();
+    playerTags()
     player1.turn = true;
     player2.turn = false;
     player1.mark = '';
@@ -409,8 +410,22 @@ function clearField1() {
     // reload()
 }
 
-const buttons = document.querySelectorAll('button')
-const numbers = [1, 2, 3, 4]
+function playerTags() {
+    player1.name = playerOneInput.value
+    player2.name = playerTwoInput.value
+    // const inGame = document.querySelector(".gamebtn").getAttribute("ingame")
+    playerOneInput.style.display = "none";
+    playerTwoInput.style.display = "none";
+    playerOneHead = document.querySelector(".player1");
+    playerOneHead.textContent = player1.name.toUpperCase()
+    playerTwoHead = document.querySelector(".player2");
+    playerTwoHead.textContent = player2.name.toUpperCase()
+    const logo = document.querySelector(".logos");
+    logo.style.display = "none";
+
+}
+
+// const buttons = document.querySelectorAll('button')
 
 function beforeGameField() {
     if (gameState !== "true") {
