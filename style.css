@@ -39,6 +39,25 @@ input {
 
 }
 
+.winnerText,
+.gamebtn {
+
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
+
 body {
 
     display: flex;
@@ -63,7 +82,10 @@ body {
 
 .winnerText {
     margin-bottom: 0px;
-    color: white
+    color: #858585;
+    display: none;
+    position: absolute;
+    bottom: 730px;
 }
 
 .title {
@@ -72,6 +94,7 @@ body {
     font-size: 5.5rem;
     margin-bottom: 0px;
     padding: 0px;
+    /* position: absolute; */
 }
 
 
@@ -91,19 +114,24 @@ body {
     width: 220px;
     height: 220px;
     color: #F65158 !important;
+    margin-top: 2rem;
 }
 
 
 
 .gamebtn {
-    width: 120px;
+    width: 150px;
     height: auto;
-    padding: 10px 20px;
+    padding: 6px 20px;
     /* display: none; */
     cursor: pointer;
     /* background-color: #081b29; */
     background-color: #041420;
     color: #F65158;
+    position: absolute;
+    right: 50rem;
+    font-family: squidFont, 'Comic Neue', cursive;
+    /* transition: 2s; */
 }
 
 .gamebtn:hover {

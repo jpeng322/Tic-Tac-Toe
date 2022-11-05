@@ -82,7 +82,6 @@ class Player {
                 thirdRow[2] = 10;
             }
         }
-        // console.log(e.target.value)
     }
 
 
@@ -168,7 +167,7 @@ class Player {
                             e.target.value = `${i}`;
                             this.updateField(e);
                             checkWinner();
-                            endOfGame();
+                            endOfGame(e);
                         }
                         //if it is not the players turn, set the box's availibility to taken so the next player's turn cannot take it, then change their turn to true so they can go next
                     } else {
@@ -203,7 +202,6 @@ class theField {
     }
 }
 
-
 const field = new theField;
 const gameState = document.querySelector(".gamebtn").getAttribute("ingame");
 const container = document.querySelector("#container");
@@ -222,7 +220,7 @@ player1.hoverMarker()
 player2.hoverMarker()
 const playerOneInput = document.getElementById("playerOne")
 const playerTwoInput = document.getElementById("playerTwo")
-// const winnerText = document.querySelector(".winnerText")
+const winnerText = document.querySelector(".winnerText")
 //loops through all horizontal rows to see if there is 3 in a row
 function checkHorizWin() {
     for (let i = 0; i < playingField.length; i++) {
@@ -301,17 +299,13 @@ function checkWinner() {
     checkTie();
 }
 
+
+
 //provides attribute to button
 const gamebutton = document.querySelector(".gamebtn")
 gamebutton.setAttribute("inGame", false)
 gamebutton.addEventListener("click", () => {
     //give the mark container text a random player number
-    let containerText = document.getElementsByClassName("containerText")
-    for (let i = 0; i < containerText.length; i++) {
-        // containerText[i].textContent = `PLAYER ${Math.ceil(Math.random() * 456)}`
-        containerText[i].textContent = `player${i + 1}`;
-        // containerText[i].textContent = `player${i + 1}`
-    }
     //checks if player names are inputted, if not game cannot start
     player1.name = playerOneInput.value
     player2.name = playerTwoInput.value
@@ -335,15 +329,30 @@ function resetButton() {
     resetPlayers();
     clearField();
     playerTags();
-    counter = 0
-    sidesPicked = 0
+    counter = 0;
+    sidesPicked = 0;
+    winnerText.textContent = ""
+    winnerText.style.display = "none"
 }
 
+let containerText = document.getElementsByClassName("containerText")
+for (let i = 0; i < containerText.length; i++) {
+    containerText[i].textContent = `PLAYER ${Math.ceil(Math.random() * 456)}`
+}
 //checks to see if player has won, if not the result is a tie, when the game ends reset field value
-function endOfGame() {
+function endOfGame(e) {
     if (player1.hasWon === true || player2.hasWon === true || counter === 9 && player1.hasWon === false && player2.hasWon === false) {
-        // console.log("end game")
-        gamebutton.textContent = "Play Again";
+        //if game has ended show the winner text
+        winnerText.style.display = "block"
+        if (e.target.innerHTML.split(" ").includes("left")) {
+            console.log(`${containerText[0].textContent} HAS WON`)
+            winnerText.textContent = `${containerText[0].textContent} HAS WON`
+        }
+        if (e.target.innerHTML.split(" ").includes("right")) {
+            console.log(`${containerText[1].textContent} HAS WON`)
+            winnerText.textContent = `${containerText[1].textContent} HAS WON`
+        }
+        gamebutton.textContent = "PLAY AGAIN";
         gamebutton.style.display = "block";
         gamebutton.setAttribute("inGame", false)
         playingField = [[0, 0, 0],
@@ -406,4 +415,3 @@ function beforeGameField() {
     }
 }
 beforeGameField()
-
