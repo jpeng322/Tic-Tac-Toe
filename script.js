@@ -307,8 +307,8 @@ gamebutton.setAttribute("inGame", false)
 gamebutton.addEventListener("click", () => {
     //give the mark container text a random player number
     //checks if player names are inputted, if not game cannot start
-    player1.name = playerOneInput.value
-    player2.name = playerTwoInput.value
+    player1.name = playerOneInput.value;
+    player2.name = playerTwoInput.value;
     if (player1.name !== "" && player2.name !== "") {
         resetButton();
         document.querySelector("#container").className = "container"
@@ -341,16 +341,23 @@ for (let i = 0; i < containerText.length; i++) {
 }
 //checks to see if player has won, if not the result is a tie, when the game ends reset field value
 function endOfGame(e) {
+
     if (player1.hasWon === true || player2.hasWon === true || counter === 9 && player1.hasWon === false && player2.hasWon === false) {
-        //if game has ended show the winner text
-        winnerText.style.display = "block"
-        if (e.target.innerHTML.split(" ").includes("left")) {
-            console.log(`${containerText[0].textContent} HAS WON`)
-            winnerText.textContent = `${containerText[0].textContent} HAS WON`
-        }
-        if (e.target.innerHTML.split(" ").includes("right")) {
-            console.log(`${containerText[1].textContent} HAS WON`)
-            winnerText.textContent = `${containerText[1].textContent} HAS WON`
+        //if game has ended and there is a winner show the winner text
+        if (player1.hasWon === true || player2.hasWon === true) {
+            winnerText.style.display = "block"
+            if (e.target.innerHTML.split(" ").includes("left")) {
+                console.log(`${containerText[0].textContent} HAS WON`)
+                winnerText.textContent = `${containerText[0].textContent} HAS WON`
+            }
+            if (e.target.innerHTML.split(" ").includes("right")) {
+                console.log(`${containerText[1].textContent} HAS WON`)
+                winnerText.textContent = `${containerText[1].textContent} HAS WON`
+            }
+            //if the game is tied, show tied text
+        } else {
+            winnerText.style.display = "block";
+            winnerText.textContent = `It is a tie!`;
         }
         gamebutton.textContent = "PLAY AGAIN";
         gamebutton.style.display = "block";
