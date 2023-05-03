@@ -84,8 +84,7 @@ body {
     margin-bottom: 0px;
     color: #858585;
     display: none;
-    position: absolute;
-    bottom: 730px;
+
 }
 
 .title {
@@ -123,15 +122,11 @@ body {
     width: 150px;
     height: auto;
     padding: 6px 20px;
-    /* display: none; */
     cursor: pointer;
-    /* background-color: #081b29; */
     background-color: #041420;
     color: #F65158;
-    position: absolute;
-    right: 50rem;
     font-family: squidFont, 'Comic Neue', cursive;
-    /* transition: 2s; */
+
 }
 
 .gamebtn:hover {
